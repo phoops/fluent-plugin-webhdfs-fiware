@@ -20,6 +20,7 @@ class Fluent::WebHDFSOutput < Fluent::TimeSlicedOutput
 
   config_param :path, :string
   config_param :username, :string, :default => nil
+  config_param :auth_token, :string, :default => nil
 
   config_param :httpfs, :bool, :default => false
 
@@ -150,6 +151,9 @@ class Fluent::WebHDFSOutput < Fluent::TimeSlicedOutput
     end
     if @kerberos
       client.kerberos = true
+    end
+    if @auth_token
+        client.http_headers['X-Auth-Token'] = @auth_token
     end
 
     client
